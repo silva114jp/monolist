@@ -13,8 +13,8 @@ class OwnershipsController < ApplicationController
       begin
         # TODO 商品情報の取得 Amazon::Ecs.item_lookupを用いてください
         response = Amazon::Ecs.item_lookup(params[:asin] ,
-                                          response_group: 'Medium' ,
-                                          country: 'jp')
+                                            response_group: 'Medium' ,
+                                            country: 'jp')
       rescue Amazon::RequestError => e
         return render :js => "alert('#{e.message}')"
       end
@@ -34,11 +34,13 @@ class OwnershipsController < ApplicationController
     # Wantボタンがされた時には「Want」が設定されています。
     if params[:type] == "Have"
       # Haveボタン
-      @item = Item.find(params[:item_id])
+      #@item = Item.find(params[:item_id])
+      @item = Item.find(@item)
       current_user.have(@item)
     else
       # Wantボタン
-      @item = Item.find(params[:item_id])
+      #@item = Item.find(params[:item_id])
+      @item = Item.find(@item)
       current_user.want(@item)
     end
   end
@@ -51,12 +53,20 @@ class OwnershipsController < ApplicationController
     # Wantedボタンがされた時には「Want」が設定されています。
     if params[:type] == "Have"
       # Havedボタン
-      @item = current_user.haves.find(params[:id]).item
-      current_user.unhave(@item)
+      #@item = current_user.haves.find(params[:id]).item
+      
+      #ownership = current_user.haves.find(@item)
+      #@item = ownership.item
+      
+      current_user.unhave(@item).item
     else
       # Wantedボタン
-      @item = current_user.wants.find(params[:id]).item
-      current_user.unwant(@item)      
+      #@item = current_user.wants.find(params[:id]).item
+      
+      #ownership = current_user.wants.find(@item)
+      #@item = ownership.item
+      
+      current_user.unwant(@item).item
     end
   end
 end
