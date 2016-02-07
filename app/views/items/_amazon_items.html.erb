@@ -18,6 +18,7 @@
             <%= item.get('ItemAttributes/Title') %>
           </p>
         </div>
+        <%= render 'items/action', item: item %>
         <div class="action clearfix">
           <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Want") ,
                       :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
